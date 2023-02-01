@@ -11,14 +11,12 @@ services:
       - traefik.http.routers.minio_server.tls=true
       - traefik.http.routers.minio_server.rule=Host(`minio.services.house`)
       - traefik.http.services.minio_server.loadbalancer.server.port=9000
-      - traefik.http.services.minio_server.loadbalancer.server.scheme=https
 
       - traefik.http.routers.minio_console.service=minio_console
       - traefik.http.routers.minio_console.entrypoints=websecure
       - traefik.http.routers.minio_console.tls=true
       - traefik.http.routers.minio_console.rule=Host(`minio-console.services.house`)
       - traefik.http.services.minio_console.loadbalancer.server.port=9010
-      - traefik.http.services.minio_console.loadbalancer.server.scheme=https
     command:
       - "minio"
       - "server"
