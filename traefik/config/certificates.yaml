@@ -4,3 +4,5 @@ tls:
       keyFile: /certs/vault.services.house.key
     - certFile: /certs/minio.services.house.crt
       keyFile: /certs/minio.services.house.key
+    - certFile: /certs/minio-console.services.house.crt
+      keyFile: /certs/minio-console.services.house.key
