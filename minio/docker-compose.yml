@@ -1,0 +1,46 @@
+version: "3"
+
+services:
+  minio-server:
+    image: "minio/minio:RELEASE.2022-10-24T18-35-07Z"
+    labels:
+      - traefik.enable=true
+
+      - traefik.http.routers.minio_server.service=minio_server
+      - traefik.http.routers.minio_server.entrypoints=websecure
+      - traefik.http.routers.minio_server.tls=true
+      - traefik.http.routers.minio_server.rule=Host(`minio.services.house`)
+      - traefik.http.services.minio_server.loadbalancer.server.port=9000
+      - traefik.http.services.minio_server.loadbalancer.server.scheme=https
+
+      - traefik.http.routers.minio_console.service=minio_console
+      - traefik.http.routers.minio_console.entrypoints=websecure
+      - traefik.http.routers.minio_console.tls=true
+      - traefik.http.routers.minio_console.rule=Host(`minio-console.services.house`)
+      - traefik.http.services.minio_console.loadbalancer.server.port=9010
+      - traefik.http.services.minio_console.loadbalancer.server.scheme=https
+    command:
+      - "minio"
+      - "server"
+      - "--console-address"
+      - ":9010"
+      - "/data"
+    restart: unless-stopped
+    environment:
+      MINIO_ACCESS_KEY_FILE: "/root/.minio/access_key"
+      MINIO_SECRET_KEY_FILE: "/root/.minio/secret_key"
+      MINIO_ROOT_USER_FILE: "/root/.minio/access_key"
+      MINIO_ROOT_PASSWORD_FILE: "/root/.minio/secret_key"
+      MINIO_BROWSER_REDIRECT_URL: "https://minio-console.services.house"
+    ports:
+      - "9000:9000"
+      - "127.0.0.1:9010:9010"
+    volumes:
+      - "/volume1/minio/data:/data"
+      - "/volume1/minio/config:/root/.minio"
+    networks:
+      - services
+
+networks:
+  services:
+    external: true

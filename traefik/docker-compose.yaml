@@ -1,0 +1,27 @@
+services:
+  frontend:
+    image: docker.io/traefik:v2.9
+    command:
+      - --api.insecure=true
+      - --api.dashboard=true
+      - --providers.docker
+      - --providers.docker.exposedbydefault=false
+      - --log.level=DEBUG
+      - --entrypoints.web.address=:80
+      - --entrypoints.websecure.address=:443
+      - --providers.file.directory=/config
+    volumes:
+      - /run/docker.sock:/run/docker.sock
+      - ./config:/config
+      - ./certs:/certs
+    ports:
+      - 8080:80
+      - 8443:443
+      - 127.0.0.1:9090:8080
+    networks:
+      - services
+    restart: always
+
+networks:
+  services:
+    external: true
