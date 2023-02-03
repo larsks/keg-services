@@ -37,7 +37,7 @@ services:
       MINIO_ROOT_PASSWORD_FILE: "/root/.minio/secret_key"
       MINIO_BROWSER_REDIRECT_URL: "https://minio-console.services.house"
     ports:
-      - "9000:9000"
+      - "192.168.1.210:9000:9000"
       - "127.0.0.1:9010:9010"
     volumes:
       - "/volume1/minio/data:/data"
