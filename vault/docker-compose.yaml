@@ -22,7 +22,7 @@ services:
       exec vault server -config /vault/config
     networks:
       - services
-    restart: always
+    restart: unless-stopped
 
 networks:
   services:
