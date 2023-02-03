@@ -11,14 +11,15 @@ services:
       - VAULT_ADDR=http://127.0.0.1:8200
     volumes:
       - /volume1/vault:/vault/file
-      - ./config:/vault/config
+      - ./config:/config
     cap_add:
       - IPC_LOCK
     command:
-    - vault
-    - server
-    - -config
-    - /vault/config
+    - sh
+    - -c
+    - |
+      tar -C /config -cf- . | tar -C /vault/config -xf- && \
+      exec vault server -config /vault/config
     networks:
       - services
     restart: always
