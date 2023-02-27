@@ -1,0 +1,47 @@
+services:
+  pgadmin:
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.pgadmin.entrypoints=websecure
+      - traefik.http.routers.pgadmin.tls=true
+      - traefik.http.routers.pgadmin.rule=Host(`postgres.services.house`)
+    image: docker.io/dpage/pgadmin4:6
+    environment:
+      PGADMIN_DEFAULT_EMAIL: pgadmin@oddbit.com
+      PGADMIN_DEFAULT_PASSWORD: "${PGADMIN_DEFAULT_PASSWORD}"
+      PGADMIN_DISABLE_POSTFIX: "true"
+    networks:
+      - services
+    volumes:
+        - pgadmin_data:/var/lib/pgadmin
+
+  postgres:
+    labels:
+      - traefik.enable=false
+    image: docker.io/postgres:14
+    environment:
+      POSTGRES_PASSWORD: "${POSTGRES_PASSWORD}"
+    volumes:
+        - postgres_data:/var/lib/postgresql/data
+        - ./certs:/certs
+        - ./initdb.d:/docker-entrypoint-initdb.d
+    networks:
+      - services
+    ports:
+      - "192.168.1.210:5432:5432"
+    restart: unless-stopped
+    command:
+      - -c
+      - ssl=on
+      - -c
+      - ssl_cert_file=/var/lib/postgresql/data/postgres.services.house.crt
+      - -c
+      - ssl_key_file=/var/lib/postgresql/data/postgres.services.house.key
+
+networks:
+  services:
+    external: true
+
+volumes:
+  postgres_data:
+  pgadmin_data:
