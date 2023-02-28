@@ -15,13 +15,13 @@ services:
       - traefik.http.routers.minio_server.service=minio_server
       - traefik.http.routers.minio_server.entrypoints=websecure
       - traefik.http.routers.minio_server.tls=true
-      - traefik.http.routers.minio_server.rule=Host(`minio.services.house`)
+      - traefik.http.routers.minio_server.rule=Host(`minio.keg.house`)
       - traefik.http.services.minio_server.loadbalancer.server.port=9000
 
       - traefik.http.routers.minio_console.service=minio_console
       - traefik.http.routers.minio_console.entrypoints=websecure
       - traefik.http.routers.minio_console.tls=true
-      - traefik.http.routers.minio_console.rule=Host(`minio-console.services.house`)
+      - traefik.http.routers.minio_console.rule=Host(`minio-console.keg.house`)
       - traefik.http.services.minio_console.loadbalancer.server.port=9010
     command:
       - "minio"
@@ -35,9 +35,9 @@ services:
       MINIO_SECRET_KEY_FILE: "/root/.minio/secret_key"
       MINIO_ROOT_USER_FILE: "/root/.minio/access_key"
       MINIO_ROOT_PASSWORD_FILE: "/root/.minio/secret_key"
-      MINIO_BROWSER_REDIRECT_URL: "https://minio-console.services.house"
+      MINIO_BROWSER_REDIRECT_URL: "https://minio-console.keg.house"
     ports:
-      - "192.168.1.210:9000:9000"
+      - "9000:9000"
       - "127.0.0.1:9010:9010"
     volumes:
       - "/volume1/minio/data:/data"

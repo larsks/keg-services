@@ -4,7 +4,7 @@ services:
       - traefik.enable=true
       - traefik.http.routers.vault.entrypoints=websecure
       - traefik.http.routers.vault.tls=true
-      - traefik.http.routers.vault.rule=Host(`vault.services.house`)
+      - traefik.http.routers.vault.rule=Host(`vault.keg.house`)
       - traefik.http.services.vault.loadbalancer.server.port=8200
     image: docker.io/vault:1.12.2
     environment:
