@@ -1,0 +1,31 @@
+services:
+  frontend:
+    image: docker.io/traefik:v3.7
+    command:
+      - --api.insecure=true
+      - --api.dashboard=true
+      - --providers.docker
+      - --providers.docker.exposedbydefault=false
+      - --log.level=INFO
+      - --entrypoints.web.address=:80
+      - --entrypoints.websecure.address=:443
+      - --certificatesresolvers.keg.acme.caServer=https://keg.house:9000/acme/acme/directory
+      - --certificatesresolvers.keg.acme.email=traefik@keg.house
+      - --certificatesresolvers.keg.acme.storage=acme.json
+      - --certificatesresolvers.keg.acme.httpchallenge=true
+      - --certificatesresolvers.keg.acme.httpchallenge.entrypoint=web
+      - --certificatesresolvers.keg.acme.caCertificates=/data/house-ca.crt
+    volumes:
+      - /volume1/docker/traefik:/data
+      - /run/docker.sock:/run/docker.sock
+    ports:
+      - 192.168.1.210:80:80
+      - 192.168.1.210:443:443
+      - 127.0.0.1:9090:8080
+    networks:
+      - services
+    restart: unless-stopped
+
+networks:
+  services:
+    external: true

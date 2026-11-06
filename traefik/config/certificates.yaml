@@ -1,4 +1,0 @@
-tls:
-  certificates:
-    - certFile: /certs/keg.house.crt
-      keyFile: /certs/keg.house.key
