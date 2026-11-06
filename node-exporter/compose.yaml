@@ -16,7 +16,3 @@ services:
       - "--path.sysfs=/host/sys"
       - "--collector.filesystem.mount-points-exclude"
       - "^/(host/rootfs/)?(dev|etc|host|proc|run|sys|volume1)($$|/)"
-
-networks:
-  services:
-    external: true

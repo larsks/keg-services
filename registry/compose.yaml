@@ -11,7 +11,9 @@ services:
     restart: unless-stopped
     environment:
       - REGISTRY_LOG_LEVEL=info
-
+    depends_on:
+      traefik:
+        condition: service_healthy
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.registry.rule=Host(`registry.keg.house`)"
@@ -21,7 +23,3 @@ services:
       - "traefik.http.routers.registry.tls.certresolver=step-ca"
       - "traefik.http.routers.registry.middlewares=registry-auth"
       - "traefik.http.middlewares.registry-auth.basicauth.users=lars:$2y$05$3KLHCPSvUKYFZfyiwG92zOoOJh4D0LQ0ewQR2AYo848kle0K2E8Vu"
-
-networks:
-  services:
-    external: true

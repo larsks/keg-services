@@ -29,6 +29,9 @@ services:
       interval: 10s
       timeout: 5s
       retries: 3
+    depends_on:
+      step-ca:
+        condition: service_healthy
 
   whoami:
     image: docker.io/traefik/whoami
@@ -39,11 +42,8 @@ services:
       - "traefik.http.routers.whoami.entrypoints=websecure"
       - "traefik.http.routers.whoami.tls=true"
       - "traefik.http.routers.whoami.tls.certresolver=step-ca"
+    depends_on:
+      traefik:
+        condition: service_healthy
     networks:
       - services
-
-networks:
-  house:
-    external: true
-  services:
-    external: true

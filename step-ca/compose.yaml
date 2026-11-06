@@ -39,13 +39,6 @@ services:
       retries: 3
       start_period: 30s
     networks:
-      house: {}
       services:
         aliases:
           - ca.house
-
-networks:
-  house:
-    external: true
-  services:
-    external: true

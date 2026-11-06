@@ -17,14 +17,15 @@ services:
       - server
       - --single-node
     restart: unless-stopped
-
     healthcheck:
       test: ["CMD", "/garage", "health"]
       interval: 30s
       timeout: 5s
       retries: 3
       start_period: 30s
-
+    depends_on:
+      traefik:
+        condition: service_healthy
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.garage-s3.rule=Host(`s3.garage.keg.house`)"
@@ -47,10 +48,6 @@ services:
       - "traefik.http.routers.garage-admin.entrypoints=websecure"
       - "traefik.http.routers.garage-admin.tls=true"
       - "traefik.http.routers.garage-admin.tls.certresolver=step-ca"
-
-networks:
-  services:
-    external: true
 
 secrets:
   rpc_secret:

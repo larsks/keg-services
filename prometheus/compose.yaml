@@ -10,7 +10,9 @@ services:
     networks:
       - services
     restart: unless-stopped
-
+    depends_on:
+      traefik:
+        condition: service_healthy
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.prometheus.rule=Host(`prom.keg.house`)"
@@ -32,7 +34,3 @@ services:
 #   networks:
 #     - services
 #   restart: unless-stopped
-
-networks:
-  services:
-    external: true

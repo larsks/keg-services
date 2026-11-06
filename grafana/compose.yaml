@@ -10,7 +10,9 @@ services:
     networks:
       - services
     restart: unless-stopped
-
+    depends_on:
+      traefik:
+        condition: service_healthy
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.grafana.rule=Host(`grafana.keg.house`)"
@@ -18,7 +20,3 @@ services:
       - "traefik.http.routers.grafana.entrypoints=websecure"
       - "traefik.http.routers.grafana.tls=true"
       - "traefik.http.routers.grafana.tls.certresolver=step-ca"
-
-networks:
-  services:
-    external: true

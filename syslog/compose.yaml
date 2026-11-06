@@ -30,7 +30,9 @@ services:
       - --storage.path=/var/lib/alloy/data
       - /etc/alloy/config.alloy
     restart: unless-stopped
-
+    depends_on:
+      traefik:
+        condition: service_healthy
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.alloy.rule=Host(`alloy.keg.house`)"
@@ -49,7 +51,9 @@ services:
     networks:
       - services
     restart: unless-stopped
-
+    depends_on:
+      traefik:
+        condition: service_healthy
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.loki.rule=Host(`loki.keg.house`)"
@@ -57,9 +61,3 @@ services:
       - "traefik.http.routers.loki.entrypoints=websecure"
       - "traefik.http.routers.loki.tls=true"
       - "traefik.http.routers.loki.tls.certresolver=step-ca"
-
-networks:
-  house:
-    external: true
-  services:
-    external: true

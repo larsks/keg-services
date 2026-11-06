@@ -13,7 +13,9 @@ services:
     networks:
       - services
     restart: unless-stopped
-
+    depends_on:
+      traefik:
+        condition: service_healthy
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.perses.rule=Host(`perses.keg.house`)"
@@ -21,7 +23,3 @@ services:
       - "traefik.http.routers.perses.entrypoints=websecure"
       - "traefik.http.routers.perses.tls=true"
       - "traefik.http.routers.perses.tls.certresolver=step-ca"
-
-networks:
-  services:
-    external: true
