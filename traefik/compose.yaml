@@ -9,6 +9,8 @@ services:
       - --ping=true
       - --log.level=INFO
       - --entrypoints.web.address=:80
+      - --entrypoints.web.http.redirections.entrypoint.to=websecure
+      - --entrypoints.web.http.redirections.entrypoint.scheme=https
       - --entrypoints.websecure.address=:443
       - --certificatesresolvers.step-ca.acme.caServer=https://ca.house:9000/acme/acme/directory
       - --certificatesresolvers.step-ca.acme.email=traefik@keg.house
