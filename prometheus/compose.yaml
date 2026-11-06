@@ -1,0 +1,38 @@
+volumes:
+  prometheus-data:
+
+services:
+  prometheus:
+    image: docker.io/prom/prometheus:v3.16.0
+    volumes:
+      - /volume1/docker/prometheus/config/prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheus-data:/prometheus
+    networks:
+      - services
+    restart: unless-stopped
+
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.prometheus.rule=Host(`prom.keg.house`)"
+      - "traefik.http.services.prometheus.loadbalancer.server.port=9090"
+      - "traefik.http.routers.prometheus.entrypoints=websecure"
+      - "traefik.http.routers.prometheus.tls=true"
+      - "traefik.http.routers.prometheus.tls.certresolver=step-ca"
+
+# cadvisor:
+#   image: ghcr.io/google/cadvisor:v0.60.6
+#   privileged: true
+#   devices:
+#     - /dev/kmsg
+#   volumes:
+#     - /:/rootfs:ro
+#     - /var/run:/var/run:ro
+#     - /sys:/sys:ro
+#     - /volume1/@docker:/var/lib/docker:ro
+#   networks:
+#     - services
+#   restart: unless-stopped
+
+networks:
+  services:
+    external: true
