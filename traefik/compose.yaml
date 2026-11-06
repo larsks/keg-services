@@ -6,7 +6,7 @@ services:
       - --api.dashboard=true
       - --providers.docker
       - --providers.docker.exposedbydefault=false
-      - --log.level=DEBUG
+      - --log.level=INFO
       - --entrypoints.web.address=:80
       - --entrypoints.websecure.address=:443
       - --certificatesresolvers.step-ca.acme.caServer=https://ca.house:9000/acme/acme/directory
