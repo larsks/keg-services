@@ -8,11 +8,6 @@ services:
       - services
     volumes:
       - registry-data:/var/lib/registry
-      - /volume1/docker/registry/auth:/auth:ro
-    environment:
-      REGISTRY_AUTH: htpasswd
-      REGISTRY_AUTH_HTPASSWD_REALM: Registry
-      REGISTRY_AUTH_HTPASSWD_PATH: /auth/htpasswd
     restart: unless-stopped
 
     labels:
@@ -22,6 +17,8 @@ services:
       - "traefik.http.routers.registry.entrypoints=websecure"
       - "traefik.http.routers.registry.tls=true"
       - "traefik.http.routers.registry.tls.certresolver=step-ca"
+      - "traefik.http.routers.registry.middlewares=registry-auth"
+      - "traefik.http.middlewares.registry-auth.basicauth.users=lars:$2y$05$3KLHCPSvUKYFZfyiwG92zOoOJh4D0LQ0ewQR2AYo848kle0K2E8Vu"
 
 networks:
   services:
