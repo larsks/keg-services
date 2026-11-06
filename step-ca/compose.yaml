@@ -31,3 +31,14 @@ services:
         ' "$$CONFIGPATH" > "$$CONFIGPATH.tmp"
         mv "$$CONFIGPATH.tmp" "$$CONFIGPATH"
         exec step-ca --password-file "$$PWDPATH" "$$CONFIGPATH"
+    networks:
+      house: {}
+      services:
+        aliases:
+          - ca.house
+
+networks:
+  house:
+    external: true
+  services:
+    external: true
