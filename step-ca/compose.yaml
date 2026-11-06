@@ -31,6 +31,13 @@ services:
         ' "$$CONFIGPATH" > "$$CONFIGPATH.tmp"
         mv "$$CONFIGPATH.tmp" "$$CONFIGPATH"
         exec step-ca --password-file "$$PWDPATH" "$$CONFIGPATH"
+
+    healthcheck:
+      test: ["CMD", "step", "ca", "health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 30s
     networks:
       house: {}
       services:

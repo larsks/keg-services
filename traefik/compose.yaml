@@ -1,11 +1,12 @@
 services:
-  frontend:
+  traefik:
     image: docker.io/traefik:v3.7
     command:
       - --api.insecure=true
       - --api.dashboard=true
       - --providers.docker
       - --providers.docker.exposedbydefault=false
+      - --ping=true
       - --log.level=INFO
       - --entrypoints.web.address=:80
       - --entrypoints.websecure.address=:443
@@ -23,6 +24,11 @@ services:
         ipv4_address: 192.168.1.210
       services: {}
     restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "traefik", "healthcheck", "--ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
 
   whoami:
     image: docker.io/traefik/whoami
