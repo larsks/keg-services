@@ -15,7 +15,7 @@ services:
     restart: unless-stopped
 
   alloy:
-    image: docker.io/grafana/alloy:v1.6.1
+    image: docker.io/grafana/alloy:v1.21.3
     networks:
       - services
     volumes:
@@ -37,7 +37,7 @@ services:
       - "traefik.http.routers.alloy.tls.certresolver=step-ca"
 
   loki:
-    image: docker.io/grafana/loki:3.3.2
+    image: docker.io/grafana/loki:3.7.9
     volumes:
       - /volume1/docker/syslog/config/loki-config.yaml:/etc/loki/local-config.yaml
       - loki-data:/loki
