@@ -1,14 +1,62 @@
+volumes:
+  alloy-data:
+  loki-data:
+
 services:
   syslog:
     image: ghcr.io/axoflow/axosyslog:4.29.0
     volumes:
-      - /volume1/docker/syslog-ng/config/syslog-ng.conf:/etc/syslog-ng/syslog-ng.conf
-      - /volume1/docker/syslog-ng/logs:/logs
+      - /volume1/docker/syslog/config/syslog-ng.conf:/etc/syslog-ng/syslog-ng.conf
+      - /volume1/docker/syslog/logs:/logs
     networks:
       house:
         ipv4_address: 192.168.1.211
+      services: {}
     restart: unless-stopped
+
+  alloy:
+    image: docker.io/grafana/alloy:v1.6.1
+    networks:
+      - services
+    volumes:
+      - /volume1/docker/syslog/config/config.alloy:/etc/alloy/config.alloy
+      - alloy-data:/var/lib/alloy/data
+    command:
+      - run
+      - --server.http.listen-addr=0.0.0.0:12345
+      - --storage.path=/var/lib/alloy/data
+      - /etc/alloy/config.alloy
+    restart: unless-stopped
+
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.alloy.rule=Host(`alloy.keg.house`)"
+      - "traefik.http.services.alloy.loadbalancer.server.port=12345"
+      - "traefik.http.routers.alloy.entrypoints=websecure"
+      - "traefik.http.routers.alloy.tls=true"
+      - "traefik.http.routers.alloy.tls.certresolver=step-ca"
+
+  loki:
+    image: docker.io/grafana/loki:3.3.2
+    volumes:
+      - /volume1/docker/syslog/config/loki-config.yaml:/etc/loki/local-config.yaml
+      - loki-data:/loki
+    command:
+      - -config.file=/etc/loki/local-config.yaml
+    networks:
+      - services
+    restart: unless-stopped
+
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.loki.rule=Host(`loki.keg.house`)"
+      - "traefik.http.services.loki.loadbalancer.server.port=3100"
+      - "traefik.http.routers.loki.entrypoints=websecure"
+      - "traefik.http.routers.loki.tls=true"
+      - "traefik.http.routers.loki.tls.certresolver=step-ca"
 
 networks:
   house:
+    external: true
+  services:
     external: true
