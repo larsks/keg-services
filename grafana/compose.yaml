@@ -1,0 +1,24 @@
+volumes:
+  grafana-data:
+
+services:
+  grafana:
+    image: docker.io/grafana/grafana:13.3.0
+    volumes:
+      - grafana-data:/var/lib/grafana
+      - /volume1/docker/grafana/config/datasources:/etc/grafana/provisioning/datasources
+    networks:
+      - services
+    restart: unless-stopped
+
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.grafana.rule=Host(`grafana.keg.house`)"
+      - "traefik.http.services.grafana.loadbalancer.server.port=3000"
+      - "traefik.http.routers.grafana.entrypoints=websecure"
+      - "traefik.http.routers.grafana.tls=true"
+      - "traefik.http.routers.grafana.tls.certresolver=step-ca"
+
+networks:
+  services:
+    external: true
