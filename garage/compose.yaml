@@ -8,6 +8,10 @@ services:
       - /volume1/garage:/data
     environment:
       GARAGE_CONFIG_FILE: /config/garage.toml
+    secrets:
+      - rpc_secret
+      - admin_token
+      - metrics_token
     command:
       - /garage
       - server
@@ -40,3 +44,11 @@ services:
 networks:
   services:
     external: true
+
+secrets:
+  rpc_secret:
+    file: /volume1/docker/garage/secrets/rpc_secret
+  admin_token:
+    file: /volume1/docker/garage/secrets/admin_token
+  metrics_token:
+    file: /volume1/docker/garage/secrets/metrics_token
