@@ -20,6 +20,11 @@ loki.relabel "network_syslog" {
     source_labels = ["__syslog_message_app_name"]
     target_label  = "app_name"
   }
+
+  rule {
+    source_labels = ["__syslog_message_sd_origin_ip"]
+    target_label  = "source_ip"
+  }
 }
 
 loki.source.syslog "network_syslog" {
@@ -29,6 +34,7 @@ loki.source.syslog "network_syslog" {
     labels   = {
       component = "syslog",
     }
+    label_structured_data = true
   }
 
   relabel_rules = loki.relabel.network_syslog.rules
