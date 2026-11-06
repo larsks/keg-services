@@ -1,8 +1,6 @@
-version: "3"
-
 services:
   node-exporter:
-    image: "docker.io/prom/node-exporter:v1.5.0"
+    image: "docker.io/prom/node-exporter:v1-distroless"
     privileged: true
     restart: unless-stopped
     ports:
