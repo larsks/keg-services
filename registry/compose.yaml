@@ -9,6 +9,8 @@ services:
     volumes:
       - registry-data:/var/lib/registry
     restart: unless-stopped
+    environment:
+      - REGISTRY_LOG_LEVEL=info
 
     labels:
       - "traefik.enable=true"
