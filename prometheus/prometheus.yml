@@ -11,3 +11,8 @@ scrape_configs:
       - targets:
           - "node-exporter:9100"
           - "madhatter:9100"
+    relabel_configs:
+      - source_labels: [__address__]
+        regex: "node-exporter:9100"
+        target_label: instance
+        replacement: "keg"
