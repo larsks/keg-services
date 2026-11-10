@@ -34,6 +34,7 @@ services:
 
   snmp-exporter:
     image: quay.io/prometheus/snmp-exporter:v0.31.0
+    restart: unless-stopped
     depends_on:
       snmp-exporter-init:
         condition: service_completed_successfully
