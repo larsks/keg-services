@@ -45,7 +45,7 @@ scrape_configs:
           - "office-sw-1.house"
     params:
       auth: ["public_v2"]
-      module: ["system", "layer2", "layer3", "ethernet", "entity"]
+      module: ["system", "layer2", "layer3", "ethernet", "entity", "switch_health"]
     metrics_path: /snmp
     relabel_configs:
       - source_labels: [__address__]

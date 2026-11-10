@@ -47,6 +47,9 @@ modules:
       - source_indexes:
           - dot3StatsIndex
         lookup: IF-MIB::ifDescr
+      - source_indexes:
+          - dot3StatsIndex
+        lookup: IF-MIB::ifName
     overrides:
       dot3StatsDuplexStatus:
         type: EnumAsInfo
@@ -83,4 +86,19 @@ modules:
       hrStorageDescr:
         ignore: true
       hrStorageType:
+        ignore: true
+  switch_health:
+    walk:
+      - NETGEAR-SWITCHING-MIB::agentSwitchCpuProcessMemFree
+      - NETGEAR-SWITCHING-MIB::agentSwitchCpuProcessMemAvailable
+      - NETGEAR-SWITCHING-MIB::agentSwitchMbufsFree
+      - NETGEAR-SWITCHING-MIB::agentSwitchMbufsUsed
+      - NETGEAR-SWITCHING-MIB::agentSwitchMbufAllocAttempts
+      - NETGEAR-SWITCHING-MIB::agentSwitchMbufAllocFails
+    lookups:
+      - source_indexes:
+          - agentSwitchMbufPrio
+        lookup: agentSwitchMbufClassName
+    overrides:
+      agentSwitchMbufClassName:
         ignore: true

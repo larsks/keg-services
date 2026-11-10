@@ -1,0 +1,154 @@
+kind: "Dashboard"
+metadata:
+  name: "switches-health"
+  project: "switches"
+spec:
+  display:
+    name: "Switches: health"
+  duration: 1h
+  refreshInterval: 1m
+  panels:
+    uptime:
+      kind: Panel
+      spec:
+        display:
+          name: "Uptime (seconds since last reinit)"
+        plugin:
+          kind: TimeSeriesChart
+          spec:
+            legend:
+              position: bottom
+              mode: table
+              values: [last]
+            yAxis:
+              show: true
+            visual:
+              display: line
+              lineWidth: 1.5
+              showPoints: auto
+        queries:
+          - kind: TimeSeriesQuery
+            spec:
+              plugin:
+                kind: PrometheusTimeSeriesQuery
+                spec:
+                  query: 'sysUpTime{instance=~"office-sw-.+"} / 100'
+                  seriesNameFormat: "{{instance}}"
+
+    memory:
+      kind: Panel
+      spec:
+        display:
+          name: "Control-plane memory (KBytes)"
+        plugin:
+          kind: TimeSeriesChart
+          spec:
+            legend:
+              position: bottom
+              mode: table
+              values: [last, min]
+            yAxis:
+              show: true
+            visual:
+              display: line
+              lineWidth: 1.5
+              showPoints: auto
+        queries:
+          - kind: TimeSeriesQuery
+            spec:
+              plugin:
+                kind: PrometheusTimeSeriesQuery
+                spec:
+                  query: 'agentSwitchCpuProcessMemFree{instance=~"office-sw-.+"}'
+                  seriesNameFormat: "{{instance}} free"
+          - kind: TimeSeriesQuery
+            spec:
+              plugin:
+                kind: PrometheusTimeSeriesQuery
+                spec:
+                  query: 'agentSwitchCpuProcessMemAvailable{instance=~"office-sw-.+"}'
+                  seriesNameFormat: "{{instance}} available"
+
+    buffers_free:
+      kind: Panel
+      spec:
+        display:
+          name: "Message buffers available"
+        plugin:
+          kind: TimeSeriesChart
+          spec:
+            legend:
+              position: bottom
+              mode: table
+              values: [last, min]
+            yAxis:
+              show: true
+            visual:
+              display: line
+              lineWidth: 1.5
+              showPoints: auto
+        queries:
+          - kind: TimeSeriesQuery
+            spec:
+              plugin:
+                kind: PrometheusTimeSeriesQuery
+                spec:
+                  query: 'agentSwitchMbufsFree{instance=~"office-sw-.+"}'
+                  seriesNameFormat: "{{instance}}"
+
+    buffer_alloc_fails:
+      kind: Panel
+      spec:
+        display:
+          name: "Message buffer allocation failures (per sec, by class)"
+        plugin:
+          kind: TimeSeriesChart
+          spec:
+            legend:
+              position: right
+              mode: table
+              size: small
+              values: [last, max]
+            yAxis:
+              show: true
+            visual:
+              display: line
+              lineWidth: 1.5
+              showPoints: auto
+        queries:
+          - kind: TimeSeriesQuery
+            spec:
+              plugin:
+                kind: PrometheusTimeSeriesQuery
+                spec:
+                  query: 'rate(agentSwitchMbufAllocFails{instance=~"office-sw-.+"}[5m])'
+                  seriesNameFormat: "{{instance}} {{agentSwitchMbufClassName}}"
+
+  layouts:
+    - kind: Grid
+      spec:
+        items:
+          - x: 0
+            y: 0
+            width: 12
+            height: 8
+            content:
+              "$ref": "#/spec/panels/uptime"
+          - x: 12
+            y: 0
+            width: 12
+            height: 8
+            content:
+              "$ref": "#/spec/panels/memory"
+          - x: 0
+            y: 8
+            width: 12
+            height: 8
+            content:
+              "$ref": "#/spec/panels/buffers_free"
+          - x: 12
+            y: 8
+            width: 12
+            height: 8
+            content:
+              "$ref": "#/spec/panels/buffer_alloc_fails"
