@@ -1,5 +1,7 @@
 frontend:
   information: "Keg House monitoring"
+  explorer:
+    enable: true
 
 database:
   file:
