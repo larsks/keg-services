@@ -12,7 +12,7 @@ services:
       - --entrypoints.websecure.address=:443
       - --certificatesresolvers.step-ca.acme.caServer=https://ca.house:9000/acme/acme/directory
       - --certificatesresolvers.step-ca.acme.email=traefik@keg.house
-      - --certificatesresolvers.step-ca.acme.storage=acme.json
+      - --certificatesresolvers.step-ca.acme.storage=/data/acme.json
       - --certificatesresolvers.step-ca.acme.httpchallenge=true
       - --certificatesresolvers.step-ca.acme.httpchallenge.entrypoint=web
       - --certificatesresolvers.step-ca.acme.caCertificates=/data/house-ca.crt
