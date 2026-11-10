@@ -7,7 +7,7 @@ include:
   - garage/compose.yaml
   - registry/compose.yaml
   - syslog/compose.yaml
-  - grafana/compose.yaml
+  # grafana/compose.yaml
   - prometheus/compose.yaml
 
 networks:

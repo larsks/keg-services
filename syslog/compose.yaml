@@ -1,5 +1,5 @@
 volumes:
-  alloy-data:
+  vector-data:
   loki-data:
 
 services:
@@ -16,30 +16,15 @@ services:
       services: {}
     restart: unless-stopped
 
-  alloy:
-    image: docker.io/grafana/alloy:v1.21.3
+  vector:
+    image: docker.io/timberio/vector:0.57.0-alpine
     networks:
       - services
     volumes:
-      - /volume1/docker/syslog/config/config.alloy:/etc/alloy/config.alloy
-      - alloy-data:/var/lib/alloy/data
+      - /volume1/docker/syslog/config/vector.yaml:/etc/vector/vector.yaml:ro
+      - vector-data:/var/lib/vector
       - /var/run/docker.sock:/var/run/docker.sock:ro
-    command:
-      - run
-      - --server.http.listen-addr=0.0.0.0:12345
-      - --storage.path=/var/lib/alloy/data
-      - /etc/alloy/config.alloy
     restart: unless-stopped
-    depends_on:
-      traefik:
-        condition: service_healthy
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.alloy.rule=Host(`alloy.keg.house`)"
-      - "traefik.http.services.alloy.loadbalancer.server.port=12345"
-      - "traefik.http.routers.alloy.entrypoints=websecure"
-      - "traefik.http.routers.alloy.tls=true"
-      - "traefik.http.routers.alloy.tls.certresolver=step-ca"
 
   loki:
     image: docker.io/grafana/loki:3.7.9
