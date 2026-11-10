@@ -8,6 +8,7 @@ include:
   - registry/compose.yaml
   - syslog/compose.yaml
   # grafana/compose.yaml
+  - perses/compose.yaml
   - prometheus/compose.yaml
 
 networks:
