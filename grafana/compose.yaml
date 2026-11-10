@@ -6,7 +6,7 @@ services:
     image: docker.io/grafana/grafana:13.3.0
     volumes:
       - grafana-data:/var/lib/grafana
-      - /volume1/docker/grafana/config/datasources:/etc/grafana/provisioning/datasources
+      - /volume1/docker/services/grafana/datasources.yaml:/etc/grafana/provisioning/datasources/datasources.yaml
     networks:
       - services
     restart: unless-stopped

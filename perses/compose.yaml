@@ -10,8 +10,8 @@ services:
       - GOGC=50
       - GOMEMLIMIT=96MiB
     volumes:
-      - /volume1/docker/perses/config/config.yaml:/etc/perses/config.yaml
-      - /volume1/docker/perses/config/provisioning:/etc/perses/provisioning
+      - /volume1/docker/services/perses/config.yaml:/etc/perses/config.yaml
+      - /volume1/docker/services/perses/provisioning:/etc/perses/provisioning
       - perses-data:/perses
     networks:
       - services

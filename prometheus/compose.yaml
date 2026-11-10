@@ -6,7 +6,7 @@ services:
   prometheus:
     image: docker.io/prom/prometheus:v3.16.0
     volumes:
-      - /volume1/docker/prometheus/config/prometheus.yml:/etc/prometheus/prometheus.yml
+      - /volume1/docker/services/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
       - prometheus-data:/prometheus
     networks:
       - services

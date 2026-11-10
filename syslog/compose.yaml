@@ -8,7 +8,7 @@ services:
     command:
       - -e
     volumes:
-      - /volume1/docker/syslog/config/syslog-ng.conf:/etc/syslog-ng/syslog-ng.conf
+      - /volume1/docker/services/syslog/syslog-ng.conf:/etc/syslog-ng/syslog-ng.conf
       - /volume1/docker/syslog/logs:/logs
     networks:
       house:
@@ -21,7 +21,7 @@ services:
     networks:
       - services
     volumes:
-      - /volume1/docker/syslog/config/vector.yaml:/etc/vector/vector.yaml:ro
+      - /volume1/docker/services/syslog/vector.yaml:/etc/vector/vector.yaml:ro
       - vector-data:/var/lib/vector
       - /var/run/docker.sock:/var/run/docker.sock:ro
     restart: unless-stopped
@@ -29,7 +29,7 @@ services:
   loki:
     image: docker.io/grafana/loki:3.7.9
     volumes:
-      - /volume1/docker/syslog/config/loki-config.yaml:/etc/loki/local-config.yaml
+      - /volume1/docker/services/syslog/loki-config.yaml:/etc/loki/local-config.yaml
       - loki-data:/loki
     command:
       - -config.file=/etc/loki/local-config.yaml
