@@ -22,11 +22,11 @@ services:
       - "traefik.http.routers.prometheus.tls=true"
       - "traefik.http.routers.prometheus.tls.certresolver=step-ca"
 
-  snmp-exporter-init:
+  snmp-generator:
     build:
-      context: snmp-config-generator
+      context: snmp-generator
       dockerfile: Containerfile
-    command: ["generate", "-m", "/mibs", "-o", "/config/snmp.yaml"]
+    command: ["generate", "-o", "/config/snmp.yaml"]
     volumes:
       - "snmp-exporter-config:/config"
     networks:
@@ -36,7 +36,7 @@ services:
     image: quay.io/prometheus/snmp-exporter:v0.31.0
     restart: unless-stopped
     depends_on:
-      snmp-exporter-init:
+      snmp-generator:
         condition: service_completed_successfully
     volumes:
       - "snmp-exporter-config:/config"
