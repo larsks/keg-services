@@ -1,5 +1,6 @@
 volumes:
   prometheus-data:
+  snmp-exporter-config:
 
 services:
   prometheus:
@@ -20,6 +21,27 @@ services:
       - "traefik.http.routers.prometheus.entrypoints=websecure"
       - "traefik.http.routers.prometheus.tls=true"
       - "traefik.http.routers.prometheus.tls.certresolver=step-ca"
+
+  snmp-exporter-init:
+    build:
+      context: snmp-config-generator
+      dockerfile: Containerfile
+    command: ["generate", "-m", "/mibs", "-o", "/config/snmp.yaml"]
+    volumes:
+      - "snmp-exporter-config:/config"
+    networks:
+      - services
+
+  snmp-exporter:
+    image: quay.io/prometheus/snmp-exporter:v0.31.0
+    depends_on:
+      snmp-exporter-init:
+        condition: service_completed_successfully
+    volumes:
+      - "snmp-exporter-config:/config"
+    command: ["--config.file=/config/snmp.yaml"]
+    networks:
+      - services
 
 # cadvisor:
 #   image: ghcr.io/google/cadvisor:v0.60.6

@@ -1,0 +1,5 @@
+FROM quay.io/prometheus/snmp-generator:v0.31.0
+
+COPY ./mibs /mibs
+WORKDIR /work
+COPY ./generator.yml ./
