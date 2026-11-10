@@ -6,6 +6,9 @@ services:
     image: docker.io/persesdev/perses:v0.55.1
     command:
       - --config=/etc/perses/config.yaml
+    environment:
+      - GOGC=50
+      - GOMEMLIMIT=96MiB
     volumes:
       - /volume1/docker/perses/config/config.yaml:/etc/perses/config.yaml
       - /volume1/docker/perses/config/provisioning:/etc/perses/provisioning

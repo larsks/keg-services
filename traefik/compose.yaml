@@ -2,8 +2,6 @@ services:
   traefik:
     image: docker.io/traefik:v3.7
     command:
-      - --api.insecure=true
-      - --api.dashboard=true
       - --providers.docker
       - --providers.docker.exposedbydefault=false
       - --ping=true
@@ -18,6 +16,9 @@ services:
       - --certificatesresolvers.step-ca.acme.httpchallenge=true
       - --certificatesresolvers.step-ca.acme.httpchallenge.entrypoint=web
       - --certificatesresolvers.step-ca.acme.caCertificates=/data/house-ca.crt
+    environment:
+      - GOGC=50
+      - GOMEMLIMIT=128MiB
     volumes:
       - /volume1/docker/traefik:/data
       - /run/docker.sock:/run/docker.sock

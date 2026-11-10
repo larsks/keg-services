@@ -33,6 +33,9 @@ services:
       - loki-data:/loki
     command:
       - -config.file=/etc/loki/local-config.yaml
+    environment:
+      - GOGC=50
+      - GOMEMLIMIT=150MiB
     networks:
       - services
     restart: unless-stopped
