@@ -17,6 +17,11 @@ scrape_configs:
         target_label: instance
         replacement: "keg"
 
+  - job_name: docker-exporter
+    static_configs:
+      - targets:
+          - "docker-exporter:8080"
+
   - job_name: snmp-router
     static_configs:
       - targets:

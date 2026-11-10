@@ -3,6 +3,7 @@ name: services
 include:
   - traefik/compose.yaml
   - node-exporter/compose.yaml
+  - docker-exporter/compose.yaml
   - step-ca/compose.yaml
   - garage/compose.yaml
   - registry/compose.yaml

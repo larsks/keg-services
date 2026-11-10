@@ -1,0 +1,14 @@
+services:
+  docker-exporter:
+    image: "ghcr.io/davidborzek/docker-exporter:0.7.0"
+    user: root
+    restart: unless-stopped
+    environment:
+      - GOGC=50
+      - GOMEMLIMIT=64MiB
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+    ports:
+      - "8080:8080"
+    networks:
+      - services
