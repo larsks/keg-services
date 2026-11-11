@@ -1,3 +1,6 @@
+volumes:
+  traefik-data:
+
 services:
   traefik:
     image: docker.io/traefik:v3.7
@@ -20,7 +23,7 @@ services:
       - GOGC=50
       - GOMEMLIMIT=128MiB
     volumes:
-      - /volume1/docker/traefik:/data
+      - traefik-data:/data
       - /run/docker.sock:/run/docker.sock
     networks:
       house:
@@ -37,6 +40,8 @@ services:
         condition: service_healthy
 
   whoami:
+    profiles:
+      - whoami
     image: docker.io/traefik/whoami
     labels:
       - "traefik.enable=true"
