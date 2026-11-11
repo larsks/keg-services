@@ -4,9 +4,10 @@ volumes:
 
 services:
   prometheus:
-    image: docker.io/prom/prometheus:v3.16.0
+    build:
+      context: .
+      dockerfile: Containerfile
     volumes:
-      - /volume1/docker/services/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
       - prometheus-data:/prometheus
     networks:
       - services
@@ -43,17 +44,3 @@ services:
     command: ["--config.file=/config/snmp.yaml"]
     networks:
       - services
-
-# cadvisor:
-#   image: ghcr.io/google/cadvisor:v0.60.6
-#   privileged: true
-#   devices:
-#     - /dev/kmsg
-#   volumes:
-#     - /:/rootfs:ro
-#     - /var/run:/var/run:ro
-#     - /sys:/sys:ro
-#     - /volume1/@docker:/var/lib/docker:ro
-#   networks:
-#     - services
-#   restart: unless-stopped
