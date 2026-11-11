@@ -1,6 +1,8 @@
 services:
   docker-exporter:
-    image: "ghcr.io/davidborzek/docker-exporter:0.7.0"
+    build:
+      context: .
+      dockerfile: Containerfile
     user: root
     restart: unless-stopped
     environment:
@@ -12,3 +14,13 @@ services:
       - "8080:8080"
     networks:
       - services
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "/bin/busybox",
+          "wget",
+          "-q",
+          "--spider",
+          "http://localhost:8080/metrics",
+        ]

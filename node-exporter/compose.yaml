@@ -1,12 +1,24 @@
 services:
   node-exporter:
-    image: "docker.io/prom/node-exporter:v1-distroless"
+    build:
+      context: .
+      dockerfile: Containerfile
     privileged: true
     restart: unless-stopped
     ports:
       - "9100:9100"
     networks:
       - services
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "/bin/busybox",
+          "wget",
+          "-q",
+          "--spider",
+          "http://localhost:9100/metrics",
+        ]
     volumes:
       - "/proc:/host/proc"
       - "/sys:/host/sys:ro"
