@@ -3,15 +3,15 @@ volumes:
 
 services:
   perses:
-    image: docker.io/persesdev/perses:v0.55.1
+    build:
+      context: .
+      dockerfile: Containerfile
     command:
       - --config=/etc/perses/config.yaml
     environment:
       - GOGC=50
       - GOMEMLIMIT=96MiB
     volumes:
-      - /volume1/docker/services/perses/config.yaml:/etc/perses/config.yaml
-      - /volume1/docker/services/perses/provisioning:/etc/perses/provisioning
       - perses-data:/perses
     networks:
       - services
