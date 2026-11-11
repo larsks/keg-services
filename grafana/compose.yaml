@@ -3,10 +3,11 @@ volumes:
 
 services:
   grafana:
-    image: docker.io/grafana/grafana:13.3.0
+    build:
+      context: .
+      dockerfile: Containerfile
     volumes:
       - grafana-data:/var/lib/grafana
-      - /volume1/docker/services/grafana/datasources.yaml:/etc/grafana/provisioning/datasources/datasources.yaml
     networks:
       - services
     restart: unless-stopped
