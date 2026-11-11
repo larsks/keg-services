@@ -1,11 +1,15 @@
+volumes:
+  garage-data:
+
 services:
   garage:
-    image: docker.io/dxflrs/garage:v2.5.0
+    build:
+      context: .
+      dockerfile: Containerfile
     networks:
       - services
     volumes:
-      - /volume1/docker/services/garage/garage.toml:/config/garage.toml
-      - /volume1/garage:/data
+      - garage-data:/data
     environment:
       GARAGE_CONFIG_FILE: /config/garage.toml
     secrets:
