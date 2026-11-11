@@ -12,6 +12,7 @@ include:
   - perses/compose.yaml
   - prometheus/compose.yaml
   - toolbox/compose.yaml
+  - snmp-exporter/compose.yaml
 
 networks:
   services:

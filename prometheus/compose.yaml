@@ -1,6 +1,5 @@
 volumes:
   prometheus-data:
-  snmp-exporter-config:
 
 services:
   prometheus:
@@ -15,6 +14,8 @@ services:
     depends_on:
       traefik:
         condition: service_healthy
+      snmp-exporter:
+        condition: service_healthy
       docker-exporter:
         condition: service_healthy
       node-exporter:
@@ -26,25 +27,3 @@ services:
       - "traefik.http.routers.prometheus.entrypoints=websecure"
       - "traefik.http.routers.prometheus.tls=true"
       - "traefik.http.routers.prometheus.tls.certresolver=step-ca"
-
-  snmp-generator:
-    build:
-      context: snmp-generator
-      dockerfile: Containerfile
-    command: ["generate", "-o", "/config/snmp.yaml"]
-    volumes:
-      - "snmp-exporter-config:/config"
-    networks:
-      - services
-
-  snmp-exporter:
-    image: quay.io/prometheus/snmp-exporter:v0.31.0
-    restart: unless-stopped
-    depends_on:
-      snmp-generator:
-        condition: service_completed_successfully
-    volumes:
-      - "snmp-exporter-config:/config"
-    command: ["--config.file=/config/snmp.yaml"]
-    networks:
-      - services
