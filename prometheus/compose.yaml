@@ -14,11 +14,11 @@ services:
     depends_on:
       traefik:
         condition: service_healthy
-      snmp-exporter:
-        condition: service_healthy
       docker-exporter:
         condition: service_healthy
       node-exporter:
+        condition: service_healthy
+      snmp-exporter:
         condition: service_healthy
     labels:
       - "traefik.enable=true"
