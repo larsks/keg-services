@@ -8,59 +8,6 @@ spec:
   duration: 1h
   refreshInterval: 1m
   panels:
-    active_ports_gauge:
-      kind: Panel
-      spec:
-        display:
-          name: "Active ports (now)"
-        plugin:
-          kind: GaugeChart
-          spec:
-            calculation: last
-            format:
-              unit: decimal
-              decimalPlaces: 0
-            max: 28
-            thresholds:
-              defaultColor: green
-        queries:
-          - kind: TimeSeriesQuery
-            spec:
-              plugin:
-                kind: PrometheusTimeSeriesQuery
-                spec:
-                  query: 'sum(node_network_carrier{instance="office-sw-2.house:9100", device=~"lan.*"})'
-
-    port_link_status:
-      kind: Panel
-      spec:
-        display:
-          name: "Port link status (carrier, 1=up)"
-        plugin:
-          kind: TimeSeriesChart
-          spec:
-            legend:
-              position: right
-              mode: table
-              size: small
-              values: [last]
-            yAxis:
-              show: true
-              min: 0
-              max: 1
-            visual:
-              display: line
-              lineWidth: 1.5
-              showPoints: auto
-        queries:
-          - kind: TimeSeriesQuery
-            spec:
-              plugin:
-                kind: PrometheusTimeSeriesQuery
-                spec:
-                  query: 'node_network_carrier{instance="office-sw-2.house:9100", device=~"lan.*"}'
-                  seriesNameFormat: "{{device}}"
-
     port_throughput:
       kind: Panel
       spec:
@@ -88,14 +35,14 @@ spec:
               plugin:
                 kind: PrometheusTimeSeriesQuery
                 spec:
-                  query: 'rate(node_network_receive_bytes_total{instance="office-sw-2.house:9100", device=~"lan.*"}[5m])'
+                  query: 'max by (device) (rate(node_network_receive_bytes_total{instance="office-sw-2.house:9100", device=~"lan.*"}[5m]))'
                   seriesNameFormat: "{{device}} rx"
           - kind: TimeSeriesQuery
             spec:
               plugin:
                 kind: PrometheusTimeSeriesQuery
                 spec:
-                  query: 'rate(node_network_transmit_bytes_total{instance="office-sw-2.house:9100", device=~"lan.*"}[5m])'
+                  query: 'max by (device) (rate(node_network_transmit_bytes_total{instance="office-sw-2.house:9100", device=~"lan.*"}[5m]))'
                   seriesNameFormat: "{{device}} tx"
 
     port_errors_drops:
@@ -139,24 +86,12 @@ spec:
         items:
           - x: 0
             y: 0
-            width: 8
-            height: 8
-            content:
-              "$ref": "#/spec/panels/active_ports_gauge"
-          - x: 8
-            y: 0
-            width: 16
-            height: 8
-            content:
-              "$ref": "#/spec/panels/port_link_status"
-          - x: 0
-            y: 8
             width: 24
             height: 10
             content:
               "$ref": "#/spec/panels/port_throughput"
           - x: 0
-            y: 18
+            y: 10
             width: 24
             height: 10
             content:

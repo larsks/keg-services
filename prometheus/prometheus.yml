@@ -11,12 +11,39 @@ scrape_configs:
       - targets:
           - "node-exporter:9100"
           - "madhatter:9100"
-          - "office-sw-2.house:9100"
     relabel_configs:
       - source_labels: [__address__]
         regex: "node-exporter:9100"
         target_label: instance
         replacement: "keg"
+
+  - job_name: node-exporter-hpe1920
+    static_configs:
+      - targets:
+          - "office-sw-2.house:9100"
+    # netclass is excluded: it walks every interface on the switch (34 of
+    # them) doing dozens of small sysfs reads each, which takes ~1s per
+    # scrape on the switch's slow single-core CPU and was causing periodic
+    # load spikes unrelated to actual traffic.
+    #
+    # Note: the param key must be "collect", not "collect[]" -- Prometheus
+    # sends the YAML key verbatim as the query param name (repeated once per
+    # list item), and this exporter's ucode script only recognizes a param
+    # literally named "collect". "collect[]" is silently ignored, which
+    # means every collector (including netclass) runs regardless.
+    params:
+      collect:
+        - conntrack
+        - cpu
+        - entropy
+        - filefd
+        - loadavg
+        - meminfo
+        - netdev
+        - openwrt
+        - thermal
+        - time
+        - uname
 
   - job_name: docker-exporter
     static_configs:
