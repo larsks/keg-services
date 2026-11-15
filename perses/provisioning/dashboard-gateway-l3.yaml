@@ -1,0 +1,301 @@
+kind: "Dashboard"
+metadata:
+  name: "gateway-l3"
+  project: "gateway"
+spec:
+  display:
+    name: "Gateway network stack"
+  duration: 1h
+  refreshInterval: 1m
+  panels:
+    tcp_estab_gauge:
+      kind: Panel
+      spec:
+        display:
+          name: "TCP established connections (now)"
+        plugin:
+          kind: GaugeChart
+          spec:
+            calculation: last
+            format:
+              unit: decimal
+              decimalPlaces: 0
+            max: 50
+            thresholds:
+              defaultColor: green
+              steps:
+                - value: 20
+                  color: orange
+                  name: "Elevated"
+                - value: 35
+                  color: red
+                  name: "High"
+        queries:
+          - kind: TimeSeriesQuery
+            spec:
+              plugin:
+                kind: PrometheusTimeSeriesQuery
+                spec:
+                  query: 'max without (job) (tcpCurrEstab{instance="gw.house"})'
+
+    tcp_estab_trend:
+      kind: Panel
+      spec:
+        display:
+          name: "TCP established connections"
+        plugin:
+          kind: TimeSeriesChart
+          spec:
+            legend:
+              position: bottom
+              mode: table
+              values: [last, max]
+            yAxis:
+              show: true
+            visual:
+              display: line
+              lineWidth: 1.5
+              showPoints: auto
+        queries:
+          - kind: TimeSeriesQuery
+            spec:
+              plugin:
+                kind: PrometheusTimeSeriesQuery
+                spec:
+                  query: 'max without (job) (tcpCurrEstab{instance="gw.house"})'
+                  seriesNameFormat: "established"
+
+    tcp_segments:
+      kind: Panel
+      spec:
+        display:
+          name: "TCP segments (per sec)"
+        plugin:
+          kind: TimeSeriesChart
+          spec:
+            legend:
+              position: bottom
+              mode: table
+              values: [last, max]
+            yAxis:
+              show: true
+            visual:
+              display: line
+              lineWidth: 1.5
+              showPoints: auto
+        queries:
+          - kind: TimeSeriesQuery
+            spec:
+              plugin:
+                kind: PrometheusTimeSeriesQuery
+                spec:
+                  query: 'max without (job) (rate(tcpInSegs{instance="gw.house"}[5m]))'
+                  seriesNameFormat: "in"
+          - kind: TimeSeriesQuery
+            spec:
+              plugin:
+                kind: PrometheusTimeSeriesQuery
+                spec:
+                  query: 'max without (job) (rate(tcpOutSegs{instance="gw.house"}[5m]))'
+                  seriesNameFormat: "out"
+          - kind: TimeSeriesQuery
+            spec:
+              plugin:
+                kind: PrometheusTimeSeriesQuery
+                spec:
+                  query: 'max without (job) (rate(tcpRetransSegs{instance="gw.house"}[5m]))'
+                  seriesNameFormat: "retransmitted"
+
+    tcp_opens_resets:
+      kind: Panel
+      spec:
+        display:
+          name: "TCP opens, resets & errors (per sec)"
+        plugin:
+          kind: TimeSeriesChart
+          spec:
+            legend:
+              position: bottom
+              mode: table
+              values: [last, max]
+            yAxis:
+              show: true
+            visual:
+              display: line
+              lineWidth: 1.5
+              showPoints: auto
+        queries:
+          - kind: TimeSeriesQuery
+            spec:
+              plugin:
+                kind: PrometheusTimeSeriesQuery
+                spec:
+                  query: 'max without (job) (rate(tcpActiveOpens{instance="gw.house"}[5m]))'
+                  seriesNameFormat: "active opens"
+          - kind: TimeSeriesQuery
+            spec:
+              plugin:
+                kind: PrometheusTimeSeriesQuery
+                spec:
+                  query: 'max without (job) (rate(tcpPassiveOpens{instance="gw.house"}[5m]))'
+                  seriesNameFormat: "passive opens"
+          - kind: TimeSeriesQuery
+            spec:
+              plugin:
+                kind: PrometheusTimeSeriesQuery
+                spec:
+                  query: 'max without (job) (rate(tcpEstabResets{instance="gw.house"}[5m]))'
+                  seriesNameFormat: "resets"
+          - kind: TimeSeriesQuery
+            spec:
+              plugin:
+                kind: PrometheusTimeSeriesQuery
+                spec:
+                  query: 'max without (job) (rate(tcpAttemptFails{instance="gw.house"}[5m]))'
+                  seriesNameFormat: "attempt fails"
+          - kind: TimeSeriesQuery
+            spec:
+              plugin:
+                kind: PrometheusTimeSeriesQuery
+                spec:
+                  query: 'max without (job) (rate(tcpInErrs{instance="gw.house"}[5m]))'
+                  seriesNameFormat: "in errors"
+
+    udp_datagrams:
+      kind: Panel
+      spec:
+        display:
+          name: "UDP datagrams (per sec)"
+        plugin:
+          kind: TimeSeriesChart
+          spec:
+            legend:
+              position: bottom
+              mode: table
+              values: [last, max]
+            yAxis:
+              show: true
+            visual:
+              display: line
+              lineWidth: 1.5
+              showPoints: auto
+        queries:
+          - kind: TimeSeriesQuery
+            spec:
+              plugin:
+                kind: PrometheusTimeSeriesQuery
+                spec:
+                  query: 'max without (job) (rate(udpInDatagrams{instance="gw.house"}[5m]))'
+                  seriesNameFormat: "in"
+          - kind: TimeSeriesQuery
+            spec:
+              plugin:
+                kind: PrometheusTimeSeriesQuery
+                spec:
+                  query: 'max without (job) (rate(udpOutDatagrams{instance="gw.house"}[5m]))'
+                  seriesNameFormat: "out"
+
+    udp_errors:
+      kind: Panel
+      spec:
+        display:
+          name: "UDP errors & unreachable ports (per sec)"
+        plugin:
+          kind: TimeSeriesChart
+          spec:
+            legend:
+              position: bottom
+              mode: table
+              values: [last, max]
+            yAxis:
+              show: true
+            visual:
+              display: line
+              lineWidth: 1.5
+              showPoints: auto
+        queries:
+          - kind: TimeSeriesQuery
+            spec:
+              plugin:
+                kind: PrometheusTimeSeriesQuery
+                spec:
+                  query: 'max without (job) (rate(udpInErrors{instance="gw.house"}[5m]))'
+                  seriesNameFormat: "in errors"
+          - kind: TimeSeriesQuery
+            spec:
+              plugin:
+                kind: PrometheusTimeSeriesQuery
+                spec:
+                  query: 'max without (job) (rate(udpNoPorts{instance="gw.house"}[5m]))'
+                  seriesNameFormat: "no port"
+
+    tcp_connections:
+      kind: Panel
+      spec:
+        display:
+          name: "TCP connections (current)"
+        plugin:
+          kind: Table
+          spec:
+            density: compact
+            columnSettings:
+              - name: __name__
+                hide: true
+              - name: instance
+                hide: true
+              - name: job
+                hide: true
+        queries:
+          - kind: TimeSeriesQuery
+            spec:
+              plugin:
+                kind: PrometheusTimeSeriesQuery
+                spec:
+                  query: 'tcpConnState{instance="gw.house"}'
+
+  layouts:
+    - kind: Grid
+      spec:
+        items:
+          - x: 0
+            y: 0
+            width: 8
+            height: 6
+            content:
+              "$ref": "#/spec/panels/tcp_estab_gauge"
+          - x: 8
+            y: 0
+            width: 16
+            height: 6
+            content:
+              "$ref": "#/spec/panels/tcp_estab_trend"
+          - x: 0
+            y: 6
+            width: 24
+            height: 8
+            content:
+              "$ref": "#/spec/panels/tcp_segments"
+          - x: 0
+            y: 14
+            width: 24
+            height: 8
+            content:
+              "$ref": "#/spec/panels/tcp_opens_resets"
+          - x: 0
+            y: 22
+            width: 12
+            height: 8
+            content:
+              "$ref": "#/spec/panels/udp_datagrams"
+          - x: 12
+            y: 22
+            width: 12
+            height: 8
+            content:
+              "$ref": "#/spec/panels/udp_errors"
+          - x: 0
+            y: 30
+            width: 24
+            height: 8
+            content:
+              "$ref": "#/spec/panels/tcp_connections"
