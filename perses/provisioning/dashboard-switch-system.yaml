@@ -417,6 +417,34 @@ spec:
                   query: '(max without (job) (node_time_seconds{instance="office-sw-2.house:9100"}) - max without (job) (node_boot_time_seconds{instance="office-sw-2.house:9100"})) / 86400'
                   seriesNameFormat: "uptime"
 
+    system_info:
+      kind: Panel
+      spec:
+        display:
+          name: "System info"
+        plugin:
+          kind: Table
+          spec:
+            density: compact
+            columnSettings:
+              - name: __name__
+                hide: true
+              - name: instance
+                hide: true
+              - name: job
+                hide: true
+              - name: value
+                hide: true
+              - name: domainname
+                hide: true
+        queries:
+          - kind: TimeSeriesQuery
+            spec:
+              plugin:
+                kind: PrometheusTimeSeriesQuery
+                spec:
+                  query: 'max without (job) (node_openwrt_info{instance="office-sw-2.house:9100"}) or max without (job) (node_uname_info{instance="office-sw-2.house:9100"})'
+
   layouts:
     - kind: Grid
       spec:
@@ -493,3 +521,9 @@ spec:
             height: 6
             content:
               "$ref": "#/spec/panels/uptime"
+          - x: 0
+            y: 58
+            width: 24
+            height: 6
+            content:
+              "$ref": "#/spec/panels/system_info"
