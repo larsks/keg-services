@@ -1,0 +1,43 @@
+digraph {
+    node [style="filled"]
+
+    # container services
+    alertmanager [color="red", fillcolor="red"]
+    traefik [color="lightgreen", fillcolor="lightgreen"]
+    "step-ca" [color="lightgreen", fillcolor="lightgreen"]
+    prometheus [color="orange", fillcolor="orange"]
+    perses [color="orange", fillcolor="orange"]
+    "docker-exporter" [color="orange", fillcolor="orange"]
+    "node-exporter" [color="orange", fillcolor="orange"]
+    "snmp-exporter" [color="orange", fillcolor="orange"]
+    "snmp-generator" [color="orange", fillcolor="orange"]
+    syslog [color="lightblue", fillcolor="lightblue"]
+    vector [color="lightblue", fillcolor="lightblue"]
+    loki [color="lightblue", fillcolor="lightblue"]
+
+    # external services
+    pushover [shape=house, color=red, fillcolor=red]
+    docker [shape=invhouse]
+
+    traefik -> "step-ca"
+    "step-ca" -> traefik
+    alertmanager -> traefik
+    garage -> traefik
+    perses -> traefik
+    prometheus -> traefik
+    loki -> traefik
+
+    syslog -> loki
+    vector -> loki
+    docker -> vector
+
+    alertmanager -> vector
+    prometheus -> alertmanager
+    prometheus -> perses
+    alertmanager -> pushover
+
+    "docker-exporter" -> prometheus
+    "node-exporter" -> prometheus
+    "snmp-exporter" -> prometheus
+    "snmp-generator" -> "snmp-exporter"
+  }
