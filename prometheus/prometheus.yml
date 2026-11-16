@@ -58,6 +58,11 @@ scrape_configs:
       - targets:
           - "docker-exporter:8080"
 
+  - job_name: syslog
+    static_configs:
+      - targets:
+          - "syslog-exporter:9577"
+
   - job_name: garage
     bearer_token_file: /run/secrets/garage_metrics_token
     static_configs:

@@ -12,6 +12,7 @@ digraph {
     "snmp-exporter" [color="orange", fillcolor="orange"]
     "snmp-generator" [color="orange", fillcolor="orange"]
     syslog [color="lightblue", fillcolor="lightblue"]
+    "syslog-exporter" [color="orange", fillcolor="orange"]
     vector [color="lightblue", fillcolor="lightblue"]
     loki [color="lightblue", fillcolor="lightblue"]
 
@@ -30,6 +31,8 @@ digraph {
     syslog -> loki
     vector -> loki
     docker -> vector
+    syslog -> "syslog-exporter"
+    "syslog-exporter" -> prometheus
 
     alertmanager -> vector
     prometheus -> alertmanager
