@@ -19,6 +19,7 @@ receivers:
     pushover_configs:
       - user_key_file: /run/secrets/pushover_user_key
         token_file: /run/secrets/pushover_token
+        priority: "0"
   - name: "vector"
     webhook_configs:
       - url: "http://vector:8080/alerts"
