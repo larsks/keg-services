@@ -5,6 +5,9 @@ route:
   repeat_interval: 1h
   receiver: "web.hook"
   routes:
+    - receiver: "vector"
+      continue: true
+      matchers: []
     - matchers:
         - alertname =~ "HighMemoryUsage|LowDiskSpace"
       receiver: "pushover"
@@ -16,6 +19,9 @@ receivers:
     pushover_configs:
       - user_key_file: /run/secrets/pushover_user_key
         token_file: /run/secrets/pushover_token
+  - name: "vector"
+    webhook_configs:
+      - url: "http://vector:8080/alerts"
 inhibit_rules:
   - source_matchers: [severity="critical"]
     target_matchers: [severity="warning"]
