@@ -63,6 +63,11 @@ scrape_configs:
       - targets:
           - "syslog-exporter:9577"
 
+  - job_name: loki
+    static_configs:
+      - targets:
+          - "loki:3100"
+
   - job_name: garage
     bearer_token_file: /run/secrets/garage_metrics_token
     static_configs:
