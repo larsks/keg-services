@@ -19,6 +19,9 @@ digraph {
     # external services
     pushover [shape=house, color=red, fillcolor=red]
     docker [shape=invhouse]
+    switches [shape=invhouse]
+    routers [shape=invhouse]
+    hosts [shape=invhouse]
 
     traefik -> "step-ca"
     "step-ca" -> traefik
@@ -35,8 +38,15 @@ digraph {
 
     alertmanager -> vector [color=red]
     prometheus -> alertmanager [color=red]
-    prometheus -> perses
+    prometheus -> perses [color=orange]
     alertmanager -> pushover [color=red]
+
+    switches -> "node-exporter" [color=orange]
+    hosts -> "node-exporter" [color=orange]
+    hosts -> syslog [color=lightblue]
+    switches -> syslog [color=lightblue]
+    routers -> syslog [color=lightblue]
+    routers -> "snmp-exporter" [color=orange]
 
     docker -> "docker-exporter" [color=orange]
     "docker-exporter" -> prometheus [color=orange]

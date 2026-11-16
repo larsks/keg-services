@@ -5,7 +5,17 @@
 ## Certificate authority and web frontend
 
 - `traefik`
+
+  [Traefik] is a front-end proxy that discovers services using container labels and automatically acquires TLS certificates from `step-ca` using the [ACME] protocol.
+ 
+  [traefik]: https://traefik.io/traefik
+  [acme]: https://en.wikipedia.org/wiki/Automatic_Certificate_Management_Environment
+
 - `step-ca`
+
+  [step-ca] is a certificate authority service that offers ACME protocol support (along with a variety of other features).
+
+  [step-ca]: https://smallstep.com/docs/step-ca/
 
 ## Logging
 
@@ -16,10 +26,12 @@
 
 - `vector`
 
-  Vector is a router for logs and metrics. In this configuration, we use it to:
+  [Vector] is a router for logs and metrics. In this configuration, we use it to:
 
   1. Collect container logs and forward them to loki.
   2. Receive alerts from alertmanager and send those to loki.
+
+  [vector]: https://vector.dev/
 
 ## Metrics and alerting
 
