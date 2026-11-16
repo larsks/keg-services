@@ -2,6 +2,23 @@ frontend:
   information: "Keg House monitoring"
   explorer:
     enable: true
+  important_dashboards:
+    - title: "Network"
+      dashboards:
+        - project: "switches"
+          dashboard: "switch-interfaces"
+        - project: "gateway"
+          dashboard: "gateway-interfaces"
+    - title: "System"
+      dashboards:
+        - project: "switches"
+          dashboard: "switch-system"
+        - project: "gateway"
+          dashboard: "gateway-system"
+        - project: "keg"
+          dashboard: "keg-system"
+        - project: "keg"
+          dashboard: "keg-memory"
 
 database:
   file:
