@@ -1,0 +1,13 @@
+volumes:
+  alertmanager-data:
+
+services:
+  alertmanager:
+    build:
+      context: .
+      dockerfile: Containerfile
+    volumes:
+      - alertmanager-data:/alertmanager
+    networks:
+      - services
+    restart: unless-stopped

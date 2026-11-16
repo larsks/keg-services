@@ -13,6 +13,7 @@ include:
   - prometheus/compose.yaml
   - toolbox/compose.yaml
   - snmp-exporter/compose.yaml
+  - alertmanager/compose.yaml
 
 networks:
   services:
