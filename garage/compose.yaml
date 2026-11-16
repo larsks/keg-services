@@ -12,6 +12,7 @@ services:
       - garage-data:/data
     environment:
       GARAGE_CONFIG_FILE: /config/garage.toml
+      GARAGE_ALLOW_WORLD_READABLE_SECRETS: "true"
     secrets:
       - rpc_secret
       - admin_token

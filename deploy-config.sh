@@ -20,6 +20,8 @@ scp -O garage/secrets/rpc_secret garage/secrets/admin_token garage/secrets/metri
   keg.house:"${SERVICE_DIR}garage/secrets/"
 scp -O alertmanager/secrets/pushover_user_key alertmanager/secrets/pushover_token \
   keg.house:"${SERVICE_DIR}alertmanager/secrets/"
-ssh keg.house chmod 600 \
-  "${SERVICE_DIR}garage/secrets/"* \
-  "${SERVICE_DIR}alertmanager/secrets/"*
+
+# We need to make secrets globally readable on the host because we
+# can't match the uid used inside the container.
+ssh keg.house chmod 644 "${SERVICE_DIR}garage/secrets/"*
+ssh keg.house chmod 644 "${SERVICE_DIR}alertmanager/secrets/"*
