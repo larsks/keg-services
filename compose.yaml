@@ -9,7 +9,7 @@ include:
   - node-exporter/compose.yaml
   - perses/compose.yaml
   - prometheus/compose.yaml
-  - registry/compose.yaml
+  # registry/compose.yaml
   - snmp-exporter/compose.yaml
   - step-ca/compose.yaml
   - syslog/compose.yaml
