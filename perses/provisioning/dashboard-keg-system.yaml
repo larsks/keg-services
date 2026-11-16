@@ -319,6 +319,128 @@ spec:
                   query: 'rate(node_network_transmit_drop_total{instance="keg", device="eth0"}[5m])'
                   seriesNameFormat: "transmit drops"
 
+    proc_scheduling:
+      kind: Panel
+      spec:
+        display:
+          name: "Process scheduling"
+        plugin:
+          kind: TimeSeriesChart
+          spec:
+            legend:
+              position: bottom
+              mode: table
+              values: [last, max]
+            yAxis:
+              show: true
+            visual:
+              display: line
+              lineWidth: 1.5
+              showPoints: auto
+        queries:
+          - kind: TimeSeriesQuery
+            spec:
+              plugin:
+                kind: PrometheusTimeSeriesQuery
+                spec:
+                  query: 'node_procs_running{instance="keg"}'
+                  seriesNameFormat: "running"
+          - kind: TimeSeriesQuery
+            spec:
+              plugin:
+                kind: PrometheusTimeSeriesQuery
+                spec:
+                  query: 'node_procs_blocked{instance="keg"}'
+                  seriesNameFormat: "blocked"
+
+    system_activity:
+      kind: Panel
+      spec:
+        display:
+          name: "Context switches & interrupts (per sec)"
+        plugin:
+          kind: TimeSeriesChart
+          spec:
+            legend:
+              position: bottom
+              mode: table
+              values: [last, max]
+            yAxis:
+              show: true
+            visual:
+              display: line
+              lineWidth: 1.5
+              showPoints: auto
+        queries:
+          - kind: TimeSeriesQuery
+            spec:
+              plugin:
+                kind: PrometheusTimeSeriesQuery
+                spec:
+                  query: 'rate(node_context_switches_total{instance="keg"}[5m])'
+                  seriesNameFormat: "context switches/s"
+          - kind: TimeSeriesQuery
+            spec:
+              plugin:
+                kind: PrometheusTimeSeriesQuery
+                spec:
+                  query: 'rate(node_intr_total{instance="keg"}[5m])'
+                  seriesNameFormat: "interrupts/s"
+
+    process_creation:
+      kind: Panel
+      spec:
+        display:
+          name: "Process creation rate"
+        plugin:
+          kind: TimeSeriesChart
+          spec:
+            legend:
+              position: bottom
+              mode: table
+              values: [last, max]
+            yAxis:
+              show: true
+            visual:
+              display: line
+              lineWidth: 1.5
+              showPoints: auto
+        queries:
+          - kind: TimeSeriesQuery
+            spec:
+              plugin:
+                kind: PrometheusTimeSeriesQuery
+                spec:
+                  query: 'rate(node_forks_total{instance="keg"}[5m])'
+                  seriesNameFormat: "forks/s"
+
+    filefd_usage:
+      kind: Panel
+      spec:
+        display:
+          name: "File descriptor usage"
+        plugin:
+          kind: TimeSeriesChart
+          spec:
+            legend:
+              position: bottom
+              mode: table
+              values: [last, max]
+            yAxis:
+              show: true
+            visual:
+              display: line
+              lineWidth: 1.5
+              showPoints: auto
+        queries:
+          - kind: TimeSeriesQuery
+            spec:
+              plugin:
+                kind: PrometheusTimeSeriesQuery
+                spec:
+                  query: 'node_filefd_allocated{instance="keg"}'
+                  seriesNameFormat: "allocated"
+
   layouts:
     - kind: Grid
       spec:
@@ -377,3 +499,27 @@ spec:
             height: 8
             content:
               "$ref": "#/spec/panels/network_errors"
+          - x: 0
+            y: 36
+            width: 12
+            height: 8
+            content:
+              "$ref": "#/spec/panels/proc_scheduling"
+          - x: 12
+            y: 36
+            width: 12
+            height: 8
+            content:
+              "$ref": "#/spec/panels/system_activity"
+          - x: 0
+            y: 44
+            width: 12
+            height: 8
+            content:
+              "$ref": "#/spec/panels/filefd_usage"
+          - x: 12
+            y: 44
+            width: 12
+            height: 8
+            content:
+              "$ref": "#/spec/panels/process_creation"
