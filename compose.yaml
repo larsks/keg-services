@@ -1,19 +1,21 @@
 name: services
 
 include:
-  - traefik/compose.yaml
-  - node-exporter/compose.yaml
+  - alertmanager/compose.yaml
   - docker-exporter/compose.yaml
-  - step-ca/compose.yaml
   - garage/compose.yaml
-  - registry/compose.yaml
-  - syslog/compose.yaml
   # grafana/compose.yaml
+  - loki/compose.yaml
+  - node-exporter/compose.yaml
   - perses/compose.yaml
   - prometheus/compose.yaml
-  - toolbox/compose.yaml
+  - registry/compose.yaml
   - snmp-exporter/compose.yaml
-  - alertmanager/compose.yaml
+  - step-ca/compose.yaml
+  - syslog/compose.yaml
+  - toolbox/compose.yaml
+  - traefik/compose.yaml
+  - vector/compose.yaml
 
 networks:
   services:

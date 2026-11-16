@@ -1,12 +1,8 @@
-volumes:
-  vector-data:
-  loki-data:
-
 services:
   syslog:
     build:
       context: .
-      dockerfile: Containerfile.syslog-ng
+      dockerfile: Containerfile
     command:
       - -e
     volumes:
@@ -16,39 +12,3 @@ services:
         ipv4_address: 192.168.1.211
       services: {}
     restart: unless-stopped
-
-  vector:
-    build:
-      context: .
-      dockerfile: Containerfile.vector
-    networks:
-      - services
-    volumes:
-      - vector-data:/var/lib/vector
-      - /var/run/docker.sock:/var/run/docker.sock:ro
-    restart: unless-stopped
-
-  loki:
-    build:
-      context: .
-      dockerfile: Containerfile.loki
-    volumes:
-      - loki-data:/loki
-    command:
-      - -config.file=/etc/loki/local-config.yaml
-    environment:
-      - GOGC=50
-      - GOMEMLIMIT=150MiB
-    networks:
-      - services
-    restart: unless-stopped
-    depends_on:
-      traefik:
-        condition: service_healthy
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.loki.rule=Host(`loki.keg.house`)"
-      - "traefik.http.services.loki.loadbalancer.server.port=3100"
-      - "traefik.http.routers.loki.entrypoints=websecure"
-      - "traefik.http.routers.loki.tls=true"
-      - "traefik.http.routers.loki.tls.certresolver=step-ca"
