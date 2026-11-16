@@ -381,13 +381,33 @@ spec:
                 spec:
                   query: 'max without (job) (node_filefd_allocated{instance="office-sw-2.house:9100"})'
                   seriesNameFormat: "allocated"
+
+    process_creation:
+      kind: Panel
+      spec:
+        display:
+          name: "Process creation rate"
+        plugin:
+          kind: TimeSeriesChart
+          spec:
+            legend:
+              position: bottom
+              mode: table
+              values: [last, max]
+            yAxis:
+              show: true
+            visual:
+              display: line
+              lineWidth: 1.5
+              showPoints: auto
+        queries:
           - kind: TimeSeriesQuery
             spec:
               plugin:
                 kind: PrometheusTimeSeriesQuery
                 spec:
-                  query: 'max without (job) (node_filefd_maximum{instance="office-sw-2.house:9100"})'
-                  seriesNameFormat: "maximum"
+                  query: 'max without (job) (rate(node_forks_total{instance="office-sw-2.house:9100"}[5m]))'
+                  seriesNameFormat: "forks/s"
 
     uptime:
       kind: Panel
@@ -493,10 +513,16 @@ spec:
               "$ref": "#/spec/panels/system_activity"
           - x: 0
             y: 30
-            width: 24
+            width: 12
             height: 8
             content:
               "$ref": "#/spec/panels/filefd_usage"
+          - x: 12
+            y: 30
+            width: 12
+            height: 8
+            content:
+              "$ref": "#/spec/panels/process_creation"
           - x: 0
             y: 38
             width: 8
