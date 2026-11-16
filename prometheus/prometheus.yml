@@ -58,6 +58,12 @@ scrape_configs:
       - targets:
           - "docker-exporter:8080"
 
+  - job_name: garage
+    bearer_token_file: /run/secrets/garage_metrics_token
+    static_configs:
+      - targets:
+          - "garage:3903"
+
   - job_name: snmp-router
     static_configs:
       - targets:
