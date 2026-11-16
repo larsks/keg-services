@@ -5,16 +5,16 @@ digraph {
     alertmanager [color="red", fillcolor="red"]
     traefik [color="lightgreen", fillcolor="lightgreen"]
     "step-ca" [color="lightgreen", fillcolor="lightgreen"]
-    prometheus [color="orange", fillcolor="orange"]
-    perses [color="orange", fillcolor="orange"]
-    "docker-exporter" [color="orange", fillcolor="orange"]
-    "node-exporter" [color="orange", fillcolor="orange"]
-    "snmp-exporter" [color="orange", fillcolor="orange"]
-    "snmp-generator" [color="orange", fillcolor="orange"]
-    syslog [color="lightblue", fillcolor="lightblue"]
-    "syslog-exporter" [color="orange", fillcolor="orange"]
-    vector [color="lightblue", fillcolor="lightblue"]
-    loki [color="lightblue", fillcolor="lightblue"]
+    prometheus [color=orange, fillcolor=orange]
+    perses [color=orange, fillcolor=orange]
+    "docker-exporter" [color=orange, fillcolor=orange]
+    "node-exporter" [color=orange, fillcolor=orange]
+    "snmp-exporter" [color=orange, fillcolor=orange]
+    "snmp-generator" [color=orange, fillcolor=orange]
+    syslog [color=lightblue, fillcolor=lightblue]
+    "syslog-exporter" [color=orange, fillcolor=orange]
+    vector [color=lightblue, fillcolor=lightblue]
+    loki [color=lightblue, fillcolor=lightblue]
 
     # external services
     pushover [shape=house, color=red, fillcolor=red]
@@ -28,19 +28,21 @@ digraph {
     prometheus -> traefik
     loki -> traefik
 
-    syslog -> loki
-    vector -> loki
-    docker -> vector
-    syslog -> "syslog-exporter"
-    "syslog-exporter" -> prometheus
+    syslog -> loki [color=lightblue]
+    vector -> loki [color=lightblue]
+    docker -> vector [color=lightblue]
+    syslog -> "syslog-exporter" [color=orange]
 
-    alertmanager -> vector
-    prometheus -> alertmanager
+    alertmanager -> vector [color=red]
+    prometheus -> alertmanager [color=red]
     prometheus -> perses
-    alertmanager -> pushover
+    alertmanager -> pushover [color=red]
 
-    "docker-exporter" -> prometheus
-    "node-exporter" -> prometheus
-    "snmp-exporter" -> prometheus
+    docker -> "docker-exporter" [color=orange]
+    "docker-exporter" -> prometheus [color=orange]
+    "node-exporter" -> prometheus [color=orange]
+    "snmp-exporter" -> prometheus [color=orange]
     "snmp-generator" -> "snmp-exporter"
+    "syslog-exporter" -> prometheus [color=orange]
+    loki -> prometheus [color=orange]
   }
