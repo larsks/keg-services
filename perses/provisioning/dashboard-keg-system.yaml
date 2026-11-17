@@ -36,7 +36,7 @@ spec:
               plugin:
                 kind: PrometheusTimeSeriesQuery
                 spec:
-                  query: 'node_load1{instance="keg"}'
+                  query: 'node_load1{instance="keg.house:9100"}'
 
     cpu_usage:
       kind: Panel
@@ -69,7 +69,7 @@ spec:
               plugin:
                 kind: PrometheusTimeSeriesQuery
                 spec:
-                  query: '100 * avg by (mode) (rate(node_cpu_seconds_total{instance="keg", mode!="idle"}[5m]))'
+                  query: '100 * avg by (mode) (rate(node_cpu_seconds_total{instance="keg.house:9100", mode!="idle"}[5m]))'
                   seriesNameFormat: "{{mode}}"
 
     load_trend:
@@ -96,21 +96,21 @@ spec:
               plugin:
                 kind: PrometheusTimeSeriesQuery
                 spec:
-                  query: 'node_load1{instance="keg"}'
+                  query: 'node_load1{instance="keg.house:9100"}'
                   seriesNameFormat: "1m"
           - kind: TimeSeriesQuery
             spec:
               plugin:
                 kind: PrometheusTimeSeriesQuery
                 spec:
-                  query: 'node_load5{instance="keg"}'
+                  query: 'node_load5{instance="keg.house:9100"}'
                   seriesNameFormat: "5m"
           - kind: TimeSeriesQuery
             spec:
               plugin:
                 kind: PrometheusTimeSeriesQuery
                 spec:
-                  query: 'node_load15{instance="keg"}'
+                  query: 'node_load15{instance="keg.house:9100"}'
                   seriesNameFormat: "15m"
 
     temperature:
@@ -138,7 +138,7 @@ spec:
               plugin:
                 kind: PrometheusTimeSeriesQuery
                 spec:
-                  query: 'node_hwmon_temp_celsius{instance="keg"}'
+                  query: 'node_hwmon_temp_celsius{instance="keg.house:9100"}'
                   seriesNameFormat: "{{sensor}}"
 
     cooling_state:
@@ -165,7 +165,7 @@ spec:
               plugin:
                 kind: PrometheusTimeSeriesQuery
                 spec:
-                  query: 'node_cooling_device_cur_state{instance="keg"}'
+                  query: 'node_cooling_device_cur_state{instance="keg.house:9100"}'
                   seriesNameFormat: "{{type}} {{name}}"
 
     disk_throughput:
@@ -194,14 +194,14 @@ spec:
               plugin:
                 kind: PrometheusTimeSeriesQuery
                 spec:
-                  query: 'rate(node_disk_read_bytes_total{instance="keg", device=~"sda|sdb"}[5m])'
+                  query: 'rate(node_disk_read_bytes_total{instance="keg.house:9100", device=~"sda|sdb"}[5m])'
                   seriesNameFormat: "{{device}} read"
           - kind: TimeSeriesQuery
             spec:
               plugin:
                 kind: PrometheusTimeSeriesQuery
                 spec:
-                  query: 'rate(node_disk_written_bytes_total{instance="keg", device=~"sda|sdb"}[5m])'
+                  query: 'rate(node_disk_written_bytes_total{instance="keg.house:9100", device=~"sda|sdb"}[5m])'
                   seriesNameFormat: "{{device}} write"
 
     disk_busy:
@@ -232,7 +232,7 @@ spec:
               plugin:
                 kind: PrometheusTimeSeriesQuery
                 spec:
-                  query: '100 * rate(node_disk_io_time_seconds_total{instance="keg", device=~"sda|sdb"}[5m])'
+                  query: '100 * rate(node_disk_io_time_seconds_total{instance="keg.house:9100", device=~"sda|sdb"}[5m])'
                   seriesNameFormat: "{{device}}"
 
     network_throughput:
@@ -261,14 +261,14 @@ spec:
               plugin:
                 kind: PrometheusTimeSeriesQuery
                 spec:
-                  query: 'rate(node_network_receive_bytes_total{instance="keg", device="eth0"}[5m])'
+                  query: 'rate(node_network_receive_bytes_total{instance="keg.house:9100", device="eth0"}[5m])'
                   seriesNameFormat: "receive"
           - kind: TimeSeriesQuery
             spec:
               plugin:
                 kind: PrometheusTimeSeriesQuery
                 spec:
-                  query: 'rate(node_network_transmit_bytes_total{instance="keg", device="eth0"}[5m])'
+                  query: 'rate(node_network_transmit_bytes_total{instance="keg.house:9100", device="eth0"}[5m])'
                   seriesNameFormat: "transmit"
 
     network_errors:
@@ -295,28 +295,28 @@ spec:
               plugin:
                 kind: PrometheusTimeSeriesQuery
                 spec:
-                  query: 'rate(node_network_receive_errs_total{instance="keg", device="eth0"}[5m])'
+                  query: 'rate(node_network_receive_errs_total{instance="keg.house:9100", device="eth0"}[5m])'
                   seriesNameFormat: "receive errors"
           - kind: TimeSeriesQuery
             spec:
               plugin:
                 kind: PrometheusTimeSeriesQuery
                 spec:
-                  query: 'rate(node_network_transmit_errs_total{instance="keg", device="eth0"}[5m])'
+                  query: 'rate(node_network_transmit_errs_total{instance="keg.house:9100", device="eth0"}[5m])'
                   seriesNameFormat: "transmit errors"
           - kind: TimeSeriesQuery
             spec:
               plugin:
                 kind: PrometheusTimeSeriesQuery
                 spec:
-                  query: 'rate(node_network_receive_drop_total{instance="keg", device="eth0"}[5m])'
+                  query: 'rate(node_network_receive_drop_total{instance="keg.house:9100", device="eth0"}[5m])'
                   seriesNameFormat: "receive drops"
           - kind: TimeSeriesQuery
             spec:
               plugin:
                 kind: PrometheusTimeSeriesQuery
                 spec:
-                  query: 'rate(node_network_transmit_drop_total{instance="keg", device="eth0"}[5m])'
+                  query: 'rate(node_network_transmit_drop_total{instance="keg.house:9100", device="eth0"}[5m])'
                   seriesNameFormat: "transmit drops"
 
     proc_scheduling:
@@ -343,14 +343,14 @@ spec:
               plugin:
                 kind: PrometheusTimeSeriesQuery
                 spec:
-                  query: 'node_procs_running{instance="keg"}'
+                  query: 'node_procs_running{instance="keg.house:9100"}'
                   seriesNameFormat: "running"
           - kind: TimeSeriesQuery
             spec:
               plugin:
                 kind: PrometheusTimeSeriesQuery
                 spec:
-                  query: 'node_procs_blocked{instance="keg"}'
+                  query: 'node_procs_blocked{instance="keg.house:9100"}'
                   seriesNameFormat: "blocked"
 
     system_activity:
@@ -377,14 +377,14 @@ spec:
               plugin:
                 kind: PrometheusTimeSeriesQuery
                 spec:
-                  query: 'rate(node_context_switches_total{instance="keg"}[5m])'
+                  query: 'rate(node_context_switches_total{instance="keg.house:9100"}[5m])'
                   seriesNameFormat: "context switches/s"
           - kind: TimeSeriesQuery
             spec:
               plugin:
                 kind: PrometheusTimeSeriesQuery
                 spec:
-                  query: 'rate(node_intr_total{instance="keg"}[5m])'
+                  query: 'rate(node_intr_total{instance="keg.house:9100"}[5m])'
                   seriesNameFormat: "interrupts/s"
 
     process_creation:
@@ -411,7 +411,7 @@ spec:
               plugin:
                 kind: PrometheusTimeSeriesQuery
                 spec:
-                  query: 'rate(node_forks_total{instance="keg"}[5m])'
+                  query: 'rate(node_forks_total{instance="keg.house:9100"}[5m])'
                   seriesNameFormat: "forks/s"
 
     filefd_usage:
@@ -438,7 +438,7 @@ spec:
               plugin:
                 kind: PrometheusTimeSeriesQuery
                 spec:
-                  query: 'node_filefd_allocated{instance="keg"}'
+                  query: 'node_filefd_allocated{instance="keg.house:9100"}'
                   seriesNameFormat: "allocated"
 
   layouts:

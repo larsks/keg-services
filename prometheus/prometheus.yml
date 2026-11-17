@@ -23,12 +23,8 @@ scrape_configs:
     static_configs:
       - targets:
           - "keg.house:9100"
-          - "madhatter:9100"
-    relabel_configs:
-      - source_labels: [__address__]
-        regex: "keg.house:9100"
-        target_label: instance
-        replacement: "keg"
+          - "madhatter.house:9100"
+          - "vmetrics.house:9100"
 
   - job_name: node-exporter-hpe1920
     static_configs:

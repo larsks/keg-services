@@ -33,7 +33,7 @@ spec:
               plugin:
                 kind: PrometheusTimeSeriesQuery
                 spec:
-                  query: 'sum(node_md_disks{instance="keg", state="failed"})'
+                  query: 'sum(node_md_disks{instance="keg.house:9100", state="failed"})'
 
     raid_disks_trend:
       kind: Panel
@@ -59,7 +59,7 @@ spec:
               plugin:
                 kind: PrometheusTimeSeriesQuery
                 spec:
-                  query: 'node_md_disks{instance="keg"}'
+                  query: 'node_md_disks{instance="keg.house:9100"}'
                   seriesNameFormat: "{{device}} {{state}}"
 
     fs_avail_gauge:
@@ -90,7 +90,7 @@ spec:
               plugin:
                 kind: PrometheusTimeSeriesQuery
                 spec:
-                  query: '100 * node_filesystem_avail_bytes{instance="keg", mountpoint="/"} / node_filesystem_size_bytes{instance="keg", mountpoint="/"}'
+                  query: '100 * node_filesystem_avail_bytes{instance="keg.house:9100", mountpoint="/"} / node_filesystem_size_bytes{instance="keg.house:9100", mountpoint="/"}'
 
     fs_avail_trend:
       kind: Panel
@@ -118,14 +118,14 @@ spec:
               plugin:
                 kind: PrometheusTimeSeriesQuery
                 spec:
-                  query: 'node_filesystem_size_bytes{instance="keg", mountpoint="/"}'
+                  query: 'node_filesystem_size_bytes{instance="keg.house:9100", mountpoint="/"}'
                   seriesNameFormat: "size"
           - kind: TimeSeriesQuery
             spec:
               plugin:
                 kind: PrometheusTimeSeriesQuery
                 spec:
-                  query: 'node_filesystem_avail_bytes{instance="keg", mountpoint="/"}'
+                  query: 'node_filesystem_avail_bytes{instance="keg.house:9100", mountpoint="/"}'
                   seriesNameFormat: "available"
 
     btrfs_usage:
@@ -155,7 +155,7 @@ spec:
               plugin:
                 kind: PrometheusTimeSeriesQuery
                 spec:
-                  query: 'node_btrfs_used_bytes{instance="keg"}'
+                  query: 'node_btrfs_used_bytes{instance="keg.house:9100"}'
                   seriesNameFormat: "{{block_group_type}} ({{mode}})"
 
     btrfs_allocation_ratio:
@@ -182,7 +182,7 @@ spec:
               plugin:
                 kind: PrometheusTimeSeriesQuery
                 spec:
-                  query: 'node_btrfs_allocation_ratio{instance="keg"}'
+                  query: 'node_btrfs_allocation_ratio{instance="keg.house:9100"}'
                   seriesNameFormat: "{{type}}"
 
   layouts:

@@ -36,7 +36,7 @@ spec:
               plugin:
                 kind: PrometheusTimeSeriesQuery
                 spec:
-                  query: '100 * node_memory_MemAvailable_bytes{instance="keg"} / node_memory_MemTotal_bytes{instance="keg"}'
+                  query: '100 * node_memory_MemAvailable_bytes{instance="keg.house:9100"} / node_memory_MemTotal_bytes{instance="keg.house:9100"}'
 
     mem_available_trend:
       kind: Panel
@@ -78,7 +78,7 @@ spec:
               plugin:
                 kind: PrometheusTimeSeriesQuery
                 spec:
-                  query: '100 * node_memory_MemAvailable_bytes{instance="keg"} / node_memory_MemTotal_bytes{instance="keg"}'
+                  query: '100 * node_memory_MemAvailable_bytes{instance="keg.house:9100"} / node_memory_MemTotal_bytes{instance="keg.house:9100"}'
                   seriesNameFormat: "available %"
 
     mem_overview:
@@ -107,21 +107,21 @@ spec:
               plugin:
                 kind: PrometheusTimeSeriesQuery
                 spec:
-                  query: 'node_memory_MemTotal_bytes{instance="keg"}'
+                  query: 'node_memory_MemTotal_bytes{instance="keg.house:9100"}'
                   seriesNameFormat: "total"
           - kind: TimeSeriesQuery
             spec:
               plugin:
                 kind: PrometheusTimeSeriesQuery
                 spec:
-                  query: 'node_memory_MemAvailable_bytes{instance="keg"}'
+                  query: 'node_memory_MemAvailable_bytes{instance="keg.house:9100"}'
                   seriesNameFormat: "available"
           - kind: TimeSeriesQuery
             spec:
               plugin:
                 kind: PrometheusTimeSeriesQuery
                 spec:
-                  query: 'node_memory_Cached_bytes{instance="keg"}'
+                  query: 'node_memory_Cached_bytes{instance="keg.house:9100"}'
                   seriesNameFormat: "cached"
 
     swap_bytes:
@@ -150,7 +150,7 @@ spec:
               plugin:
                 kind: PrometheusTimeSeriesQuery
                 spec:
-                  query: 'node_memory_SwapTotal_bytes{instance="keg"} - node_memory_SwapFree_bytes{instance="keg"}'
+                  query: 'node_memory_SwapTotal_bytes{instance="keg.house:9100"} - node_memory_SwapFree_bytes{instance="keg.house:9100"}'
                   seriesNameFormat: "swap used"
 
     swap_activity:
@@ -178,14 +178,14 @@ spec:
               plugin:
                 kind: PrometheusTimeSeriesQuery
                 spec:
-                  query: 'rate(node_vmstat_pswpin{instance="keg"}[5m])'
+                  query: 'rate(node_vmstat_pswpin{instance="keg.house:9100"}[5m])'
                   seriesNameFormat: "swap in"
           - kind: TimeSeriesQuery
             spec:
               plugin:
                 kind: PrometheusTimeSeriesQuery
                 spec:
-                  query: 'rate(node_vmstat_pswpout{instance="keg"}[5m])'
+                  query: 'rate(node_vmstat_pswpout{instance="keg.house:9100"}[5m])'
                   seriesNameFormat: "swap out"
 
   layouts:
