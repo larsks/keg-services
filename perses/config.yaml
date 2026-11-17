@@ -19,6 +19,10 @@ frontend:
           dashboard: "keg-system"
         - project: "keg"
           dashboard: "keg-memory"
+    - title: "Logs"
+      dashboards:
+        - project: "logs"
+          dashboard: "syslog-ng"
 
 database:
   file:
