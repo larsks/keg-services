@@ -1,5 +1,10 @@
 global:
   scrape_interval: 15s
+  external_labels:
+    site: house
+
+remote_write:
+  - url: "http://192.168.5.10:8428/api/v1/write"
 
 rule_files:
   - "/etc/prometheus/rules/*.yml"

@@ -1,4 +1,4 @@
-GENERATED = components-diagram.svg legend.svg
+GENERATED = components-diagram.svg legend.svg components.svg
 
 components-diagram.svg: components.dot
 	dot -T svg -o $@ $<
@@ -7,7 +7,7 @@ legend.svg: legend.dot
 	dot -T svg -o $@ $<
 
 components.svg: $(GENERATED) compose-legend.py
-	python3 compose-legend.py components-diagram.svg legend.svg components.svg --x 780 --y 300
+	python3 compose-legend.py components-diagram.svg legend.svg components.svg --x 860 --y 300
 
 all: components.svg
 
