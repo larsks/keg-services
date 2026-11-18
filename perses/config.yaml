@@ -19,6 +19,10 @@ frontend:
           dashboard: "keg-system"
         - project: "keg"
           dashboard: "keg-memory"
+        - project: "system"
+          dashboard: "node-system"
+        - project: "system"
+          dashboard: "node-storage"
     - title: "Logs"
       dashboards:
         - project: "logs"
